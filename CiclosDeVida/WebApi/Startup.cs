@@ -21,7 +21,7 @@ namespace WebApi
         {
             services.AddControllers();
 
-            services.AddTransient<IService, Service>();
+            services.AddTransient<Service, Service>();
 
             services.AddTransient<ICicloVidaTransient, CicloVidaTransient>();
             services.AddScoped<ICicloVidaScoped, CicloVidaScoped>();

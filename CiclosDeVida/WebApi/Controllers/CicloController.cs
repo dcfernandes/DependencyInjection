@@ -11,13 +11,13 @@ namespace WebApi.Controllers
     [ApiController]
     public class CicloController : ControllerBase
     {
-        private readonly IService _service;
+        private readonly Service _service;
 
         private readonly ICicloVidaSingleton _singleton;
         private readonly ICicloVidaScoped _scoped;
         private readonly ICicloVidaTransient _transient;
 
-        public CicloController(IService service, ICicloVidaSingleton singleton, ICicloVidaScoped scoped, ICicloVidaTransient transient)
+        public CicloController(Service service, ICicloVidaSingleton singleton, ICicloVidaScoped scoped, ICicloVidaTransient transient)
         {
             _service = service;
             _singleton = singleton;
