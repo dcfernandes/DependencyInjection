@@ -1,14 +1,14 @@
-name: Build & Smoke Test
+name: Build e Testes
 
 on:
   push:
-    branches: ["claude/update-dotnet-10-p58DY", "main"]
+    branches: ["claude/dotnet-10-upgrade-tests-MPIaa", "main"]
   pull_request:
     branches: ["main"]
 
 jobs:
-  build:
-    name: Build e Smoke Test
+  build-and-test:
+    name: Build e Testes de Unidade
     runs-on: ubuntu-latest
 
     steps:
@@ -20,28 +20,11 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Restore dependências
+      - name: Restore dependencias
         run: dotnet restore CiclosDeVida/CiclosDeVida.sln
 
       - name: Build
         run: dotnet build CiclosDeVida/CiclosDeVida.sln --no-restore --configuration Release
 
-      - name: Smoke test (verifica se a aplicação sobe)
-        run: |
-          dotnet run --project CiclosDeVida/WebApi/WebApi.csproj --configuration Release &
-          APP_PID=$!
-          echo "Aguardando aplicação iniciar..."
-          for i in $(seq 1 15); do
-            if curl -sf http://localhost:5000/ciclo-vida > /dev/null 2>&1; then
-              echo "✓ Aplicação respondeu com sucesso"
-              kill $APP_PID
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "✗ Aplicação não respondeu em 30 segundos"
-          kill $APP_PID
-          exit 1
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: http://localhost:5000
+      - name: Testes de unidade
+        run: dotnet test CiclosDeVida/CiclosDeVida.sln --no-restore --configuration Release --verbosity normal

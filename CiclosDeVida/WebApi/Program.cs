@@ -3,7 +3,7 @@ using WebApi.Example;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddTransient<Service, Service>();
+builder.Services.AddTransient<IService, Service>();
 builder.Services.AddTransient<ICicloVidaTransient, CicloVidaTransient>();
 builder.Services.AddScoped<ICicloVidaScoped, CicloVidaScoped>();
 builder.Services.AddSingleton<ICicloVidaSingleton, CicloVidaSingleton>();
@@ -21,3 +21,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
